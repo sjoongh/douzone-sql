@@ -164,4 +164,7 @@ where name is null;
 
 update userlist set name = ' ' where id = 'kang2';
 
+select *
+    from userlist
+    where name is null or name=' ';
 
