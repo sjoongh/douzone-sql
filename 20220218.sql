@@ -137,3 +137,31 @@ drop table userlist PURGE; -- 휴지통에 안남기고 완전 제거
 
 -- 레코드 삽입 / 수정 / 삭제
 
+
+-- truncate table 테이블이름;
+select * from emp2;
+delete emp2; -- 조건에 맞는것만 제거
+rollback;
+delete emp2 where emp_type='정규직';
+
+truncate table emp2; -- where절 사용 못함, rollback 안됨
+
+select DISTINCT emp_type -- 중복 제거하고 보여줌
+    from emp2
+    order by name desc;
+    
+    
+create table userlist (
+    id varchar2(20),
+    name varchar2(20)
+);
+
+insert into userlist values('kingsmile', 'hi');
+
+select * from userlist
+where name is null;
+-- where name is not null;
+
+update userlist set name = ' ' where id = 'kang2';
+
+
