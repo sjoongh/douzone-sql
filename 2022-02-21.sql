@@ -110,11 +110,61 @@ select * from gift where gno not in(1,3,7);
 select * from gift where gno between 6 and 9;
 select * from gift where gno between 9 and 6; -- X
 
--- 정규직이면서 '백원만' 찾기
-
--- 정규직이거나 '유도봉' 찾기
-
--- 수습직이거나 김씨성을 가진 사람 찾기
-
 -- 김씨가 아닌 수습직원 찾기
+select * from emp2 where emp_type='수습직' or name not like '김%';
 
+--문제1] 이름에서 '김영조' 사람들을 보여주세요.
+select * from professor
+where name like '%김영조%';
+
+--문제2] 이름에서 '김'씨 성을 가진 사람들을 보여주세요.  - 모든 : % , 한글자 : _
+select * from professor
+where name like '김__';
+
+--문제3] 이름이 두 글자인 사람 보여주세요.
+select * from professor
+where name like '__';
+ 
+--문제4] id에 s or a 글자가 들어가는 사람 찾기
+select * from professor
+where id like '%s%' or id like '%a%';
+   
+--문제5] 전임강사 찾아주세요
+  select * from professor
+  where position like '%전임강사%';
+
+--문제6] 학년이 3학년(grade)이고 키(height)가 165이상인 학과코드(deptno1)가 101인 학생 찾기
+select * from student
+where grade = 3 and height >= 164 and deptno1 = 101;
+
+--문제7] 생일이 77년 이전인 학생들 찾기
+select * from student
+where birthday < '77-01-01'
+order by birthday desc;
+
+--문제8] 부전공(deptno2)을 가진 학생들만 찾기
+select * from student
+where deptno2 is not null;
+
+--문제9] 담당교수(profno)가 1000 ~ 2001 사이 학생들 찾기
+select * from student
+where profno between 1000 and 2001;
+ -- 형식>
+-- create table 테이블명 ( 필드명 자료형(크기), 필드명 자료형(크기),..... ); 
+ -- kosa2  table create  - 이름name, 지역loc, 연락처phone
+create table kosa2 (
+    no primary key,
+    name varchar(10),
+    loc varchar(10),
+    phone varchar(10),
+)
+
+-- 퀴즈1
+-- ㅈ이 포함된 사람의 명단을 검색
+select *
+    from professor
+    where name between NCHR(51087) and NCHR(52263);
+
+select * from professor
+where name between 'ㅈ' and 'ㅊ'
+order by 1;
