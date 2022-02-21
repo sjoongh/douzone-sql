@@ -119,7 +119,7 @@ where name like '%김영조%';
 
 --문제2] 이름에서 '김'씨 성을 가진 사람들을 보여주세요.  - 모든 : % , 한글자 : _
 select * from professor
-where name like '김__';
+where name like '김%';
 
 --문제3] 이름이 두 글자인 사람 보여주세요.
 select * from professor
@@ -135,7 +135,7 @@ where id like '%s%' or id like '%a%';
 
 --문제6] 학년이 3학년(grade)이고 키(height)가 165이상인 학과코드(deptno1)가 101인 학생 찾기
 select * from student
-where grade = 3 and height >= 164 and deptno1 = 101;
+where grade = 3 and height >= 165 and deptno1 = 101;
 
 --문제7] 생일이 77년 이전인 학생들 찾기
 select * from student
