@@ -31,7 +31,7 @@ delete sampletable where name="aa";
 
 drop table sampletable; -- rollback 안됨
 
-
+-- 한 줄 주석
 /* 여러줄 주석 */
 
 select * from emp2;
@@ -48,4 +48,56 @@ show user;
 
 select sysdate from emp2;
 select sysdate from sampletable;
-select sysdate from dual;
+select sysdate from dual; -- 가상테이블 제공
+
+
+--제약조건
+CREATE TABLE userlist(
+id VARCHAR2(10) CONSTRAINT id_pk PRIMARY key, 
+name varchar2(10) not null
+);
+
+select * from userlist;
+
+insert into userlist values('smile', '김연아');
+insert into userlist values('kingsmile', '박연아');
+--insert into userlist(name) values('happy');
+
+select * from professor;
+select * from student;
+select * from department;
+
+CREATE TABLE userlist2(
+id VARCHAR2(10) CONSTRAINT userlist2_id_pk PRIMARY key, 
+jumin char(13)  CONSTRAINT jumin_un unique
+);
+
+select * from userlist2;
+insert into userlist values('aa', '111');
+insert into userlist2(id) values('kang');
+
+CREATE TABLE ck_Test(
+    NAME VARCHAR2(10) NOT NULL,
+    age NUMBER(2) NOT NULL 
+    CHECK (age BETWEEN 20 AND 30 ) 
+--age컬럼의 값은 20~30사이만 허용
+);
+
+select * from ck_Test;
+insert into ck_test values('aa', 21);
+insert into ck_test values('bb', 19);
+insert into ck_test values('cc', 41);
+
+CREATE TABLE db_test (
+    NAME VARCHAR2(10) NOT NULL,
+    addr VARCHAR2(10) DEFAULT '서울'
+);
+
+select * from emp2;
+
+-- 컬럼삭제
+alter table userlist drop COLUMN no;
+alter table userlist drop (name, gender);
+
+-- datatype 변경
+-- alter table 테이블이름 modify 컬럼이름 변경 자료형
