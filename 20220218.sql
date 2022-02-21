@@ -101,3 +101,39 @@ alter table userlist drop (name, gender);
 
 -- datatype 변경
 -- alter table 테이블이름 modify 컬럼이름 변경 자료형
+select * from userlist;
+desc userlist;
+alter table userlist modify gender numbr;
+alter table userlist modify no varchar2(20); -- 컬럼에 데이터 없을 경우 타입 변경 가능
+
+update userlist set phone=' '; -- phone = null;
+alter table userlist modify phone number;
+
+-- 컬럼 이름 변경
+-- alter table 테이블이름 rename column 기존컬럼명 to 변경컬럼명
+alter table userlist rename column no to num;
+
+-- 테이블 삭제
+-- drop table 테이블이름
+drop table userlist;
+
+-- 레코드 삭제
+delete from userlist2;
+desc userlist2;
+drop table userlist2;
+
+-- 삭제 테이블 목록 보기
+show recyclebin;
+desc recyclebin;
+
+-- 복구(삭제된 테이블)
+FLASHBACK table userlist to before drop;
+
+-- 휴지통 비우기
+PURGE RECYCLEBIN;
+select * from userlist;
+
+drop table userlist PURGE; -- 휴지통에 안남기고 완전 제거
+
+-- 레코드 삽입 / 수정 / 삭제
+
