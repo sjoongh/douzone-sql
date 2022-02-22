@@ -69,3 +69,26 @@ select position, sum(pay) 급여합, avg(pay) 평균
 from emp2
 group by position
 having position ='과장';
+
+select position, sum(pay) 급여합, round(12.3456, 2), round(avg(nvl(pay, 0), 2)) 평균 
+from emp2
+where position is not null -- null값 제외
+group by position -- 일반필드 그룹화
+having position ='과장'; -- 그룹화한 것에대한 조건
+
+-- 숫자 함수
+select  round(12.3456789, 0), round(12.3456789, 2), round(12.5456789, 0)
+from dual;
+
+select ceil(12.34), ceil(-12.34) from dual; -- 올림 한 후 정수 반환
+select floor(12.34), floor(-12.34) from dual; -- 내림 한 후 정수 반환
+select * from dept;
+select * from emp2, dept2; -- 테이블 두 개 보기
+select ceil(12.34), ceil(-12.34), floor(12.34), floor(-12.34) from dual;
+select trunc(12.3456, 2), trunc(-12.3756, 2), trunc(12.3756, 0) from dual;
+
+-- 교수 테이블에서 월급에 인상률 2%를 한 결과를 출력하시요, (소수점 0처리)
+select ceil((pay *0.2) + pay) 월급 from professor;
+
+-- 교수 테이블에서 모든 교수들에게 보너스 1000원씩 추가지급하기
+select nvl(bonus+1000, 1000) from professor;
