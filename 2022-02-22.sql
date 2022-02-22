@@ -92,3 +92,34 @@ select ceil((pay *0.2) + pay) 월급 from professor;
 
 -- 교수 테이블에서 모든 교수들에게 보너스 1000원씩 추가지급하기
 select nvl(bonus+1000, 1000) from professor;
+
+-- 문자열함수
+select UPPER(id) from professor;
+select initcap(id) from professor;
+select id, length(id), length('abcd') from professor;
+select substr(jumin, 7,1) from gogak; -- 문자의 일부분 추출-str(문자열, 시작, 개수)
+select instr('abcd', 'b') from dual; -- index번호가 1부터 시작
+select id, instr(id, 'b') from professor;
+select instr('abasdasdas', 'b', -1) from dual; -- -1이면 뒤에서부터 찾는다.
+
+-- lpad(문자열, 전체자리수, 특정문자) -> 오른쪽 정렬 후 왼쪽 빈 공백에 특정문자로 채움
+-- Rpad() --> 왼쪽 정렬 후 오른쪽 빈 공백에 특정문자로 채움
+select lpad('abcd', 20, '#') from dual;
+select rpad('abcd', 20, '@') from dual;
+
+select length('사장실') from dual; -- 한글도 한글자 1바이트
+select lengthb('사장실') from dual; -- 9바이트
+
+select dname, length(dname), lengthb(dname) from dept2;
+select dname, substr(dname, 3) from dept2; -- 3번째부터 끝까지 가져옴
+select dname, substr(dname, 2, 3) from dept2; 
+
+select rpad(dname, 10, substr('1234567890', length(dname)+1)) RAAD연습 from dept2;
+
+-- ltrim 왼쪽 공백제거
+-- rtrim 오른쪽 공백제거
+
+-- student 테이블에서 1 전공이 201 번인 학생들의 id를 이름과 함께 소문자, 대문자로 출력
+select UPPER(id), LOWER(id)
+from student
+where  deptno1 = 201;
