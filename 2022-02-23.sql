@@ -126,4 +126,38 @@ select p.name, p.position, p.profno, s.name, s.studno, s.grade, s.deptno1
 from professor p join student s
 on p.profno = s.profno;
 
-select * from student;
+-- 여러 테이블(3개 이상) 조인 방법
+select 컬럼명,...
+    from 테이블명1 별칭1 outer left join
+    테이블명2 별칭2 right outer join 테이블명3 별칭3
+    on 별칭1.컬럼명 = 별칭2.컬럼명,
+    on 별칭2.컬럼명 = 별칭3.컬럼명;
+
+select e.ename, d.dname, e.empno, e.job, d.loc 
+from emp e 
+join dept d on e.deptno = d.deptno;
+
+-- 테이블 복사 / 레코드 복사 -----------
+-- 형식
+create table 테이블이름
+    as select 필드명,...... from 테이블명
+
+select * from emp;
+create table c_emp
+    as
+    select * from c_emp;
+    
+create table c_emp_30
+    as select empno 번호, ename 이름, job 직업, sal 급여
+    from emp
+    where deptno=30; -- 조건적용, 별칭
+    
+-- 교수 테이블에서 전임강사만 뽑아서 테이블 생성
+create table test
+    as select position 전임강사
+    from professor
+    where professor = '전임강사';
+-- emp 테이블에서 mgr(매니저번호)가 7566인 사람만 추출해서 새로운 테이블 생성
+create table test2
+as select * from emp
+where mgr = 7566;
