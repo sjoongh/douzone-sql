@@ -97,3 +97,33 @@ select dname,
     WHEN pdept = pdept THEN pdept
     END pdept
 from dept2;
+
+-- join-- pk / fk관계
+select ename, job, sal, emp.deptno, dname
+from emp, dept
+where emp.deptno = dept.deptno;
+
+select ename, job, sal, e.deptno, dname
+from emp e, dept d
+where e.deptno = d.deptno; -- inner join
+
+select ename, job, sal, e.deptno, dname
+from emp e inner join dept d -- 양쪽 일치데이터
+on e.deptno = d.deptno; -- inner join, join만 쓰면 inner join역할
+
+select ename, job, sal, e.deptno, dname
+from emp e left outer join dept d -- left outer join
+on e.deptno = d.deptno; -- 왼쪽에 있는 데이터 모두 오른쪽은 일치하는 데이터만
+
+select ename, job, sal, e.deptno, dname
+from emp e right outer join dept d -- right outer join
+on e.deptno = d.deptno; -- 오른쪽에 있는 데이터 모두 왼쪽은 일치하는 데이터만
+
+-- = (inner join), *= (left outer join), =* (right outer join) 연산자
+
+-- 문제 1, professor / student table 이용
+select p.name, p.position, p.profno, s.name, s.studno, s.grade, s.deptno1 
+from professor p join student s
+on p.profno = s.profno;
+
+select * from student;
