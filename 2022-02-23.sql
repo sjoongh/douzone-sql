@@ -152,6 +152,10 @@ create table c_emp_30
     from emp
     where deptno=30; -- 조건적용, 별칭
     
+ -- 제약조건 확인 방법 1) 툴이용 2) 명령어
+ select * from all_constraints
+ where table_name = 'EMP'; -- 데이터 딕셔너리에는 대부분 대문자로 저장됨
+    
 -- 교수 테이블에서 전임강사만 뽑아서 테이블 생성
 create table test
     as select position 전임강사
@@ -161,3 +165,36 @@ create table test
 create table test2
 as select * from emp
 where mgr = 7566;
+rollback;
+
+-- 레코드복사
+-- 형식> 구조물만 복사하길 원할때
+
+create table c_emp3
+    as select empno, ename, job, sal from emp; -- 원하는필드에 해당하는 레코드 복사
+
+-- union
+
+select * from emp
+union -- 중복행 제거
+    select * from c_emp;
+
+select * from emp
+union all -- 중복행 포함
+    select * from c_emp;
+    
+-- 검색
+select * from c_emp where job in ('MANAGER', 'manager');
+select * from c_emp where job = 'MANAGER'  or job = 'manager';
+
+-- pprt 3장,4장,8장 실습
+
+-- 1. c_emp_20, c_emp4 union 결과
+select * from c_emp20
+union
+select * from e_emp4 union
+
+-- 2. 사원번호, 이름, 급여 그리고 15%인상된 급여를 정수로 표현하되
+-- 컬럼명을 New Salary로 지정하여 출력
+
+-- 3.
