@@ -36,4 +36,26 @@ select * from v_emp4;
 -- 문제13] 부서별 평균급여를 갖는 view 만드는데, 평균급여가 2000이상인 부서만 출력하세요.
 create view v_emp5
 as
-    select deptno, ceil(avg(sal)) 평균급여 from emp where avg(sal) <= 2000;
+    select deptno, ceil(avg(sal)) 평균급여 from emp group by deptno 
+    having avg(sal) <= 2000;
+
+ -- 14. 직위별 총급여를 구하는 view 테이블을 만드는데, 직위(job)가 manager인 사원들은
+ -- 제외하고 총 급여가 3000이상인 직원들만 저장한 테이블 만들기
+ create view v_emp6
+ as
+    select job, sum(sal) 급여 from emp 
+    where job not in ('MANAGER', 'manager')
+    group by job
+    having sum(sal) >= 3000;
+    
+ -- 15. 학생 테이블에서 학년별 키는 165이상이고
+ -- 몸무게는 60 이상인 사람들만 출력하는 뷰 테이블 만들기
+ create view v_emp7
+ as
+    select grade, sum(height) 키, sum(weight) 몸무게 from student 
+    where weight >= 60
+    group by grade
+    having avg(height) >= 165;
+    
+select * from v_emp7;
+ -- 제약조건 확인 및 제약 조건 제거 설명할 것
