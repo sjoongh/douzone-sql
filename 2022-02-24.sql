@@ -65,13 +65,25 @@ select * from student;
 
 select name 이름, grade 입사일, height 학과명
 from student
-where (grade, height) in (select max(grade), max(height) from student group by grade);
+where (grade, height) in (select grade, max(height) from student group by grade);
 
 --문제7]professor 테이블을 조회하여 각 학과별로 입사일이 가장 오래된 교수의 교수번호와 이름, 입사일, 학과명을 출력. 
 -- 단, 학과명순으로 오름차순 정렬.
-select * from professor;
+select p.name 이름, p.hiredate 입사일, p.deptno 학과명
+from professor p, department d
+where p.deptno = d.deptno and (p.deptno, p.hiredate) 
+in (select deptno, min(hiredate) from professor group by deptno)
+order by p.deptno;
 
-select name 이름, hiredate 입사일, deptno 학과명
-from professor
-where (deptno, hiredate) in (select max(deptno) ,min(hiredate) from professor group by deptno)
-order by deptno;
+--문제8]Emp2 테이블을 조회하여 직급별로 해당 직급에서 최대 연봉을 받는 직원의 이름과 직급, 연봉을 출력하세요. 
+--연봉순으로 오름차순 정렬하세요.
+select * from emp2;
+
+select name 이름, position 직급, pay 연봉
+from emp2
+where (position, pay) in (select position, max(pay) from emp2 group by position)
+order by pay;
+
+-- 9. emp 2 평균 급여보다 작은 사람을 출력하세요
+select * from emp2
+where pay < (select avg(pay) from emp2);
