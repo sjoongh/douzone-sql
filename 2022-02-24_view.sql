@@ -49,13 +49,23 @@ as
     having sum(sal) >= 3000;
     
  -- 15. 학생 테이블에서 학년별 키는 165이상이고
- -- 몸무게는 60 이상인 사람들만 출력하는 뷰 테이블 만들기
+ -- 몸무게는 60 이상인 사람들만 출력하는 뷰 테이블 만들기asd
+ -- round 0->(기본)소수점 첫번째자리, 1 -> 소수점 두번째 자리
+ -- -1 -> 일의자리
+ -- -2 -> 십의자리
  create view v_emp7
  as
-    select grade, sum(height) 키, sum(weight) 몸무게 from student 
-    where weight >= 60
+    select grade, round(avg(height), 1) 키, avg(weight) 몸무게 from student 
     group by grade
-    having avg(height) >= 165;
+    having avg(height) >= 165 and avg(weight) >= 60;
     
 select * from v_emp7;
+
+-- 16. 교수테이블에서 전임강사들만 있는 가상 테이블 만들기
+create view v_pro
+as
+    select * from professor where position in '전임강사';
+
+select * from v_pro;
+
  -- 제약조건 확인 및 제약 조건 제거 설명할 것

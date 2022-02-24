@@ -138,6 +138,7 @@ from emp e
 join dept d on e.deptno = d.deptno;
 
 -- 테이블 복사 / 레코드 복사 -----------
+-- 테이블 복사를 하면 제약조건은 복사되지 않는다.
 -- 형식
 create table 테이블이름
     as select 필드명,...... from 테이블명
