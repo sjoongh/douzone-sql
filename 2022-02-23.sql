@@ -201,10 +201,13 @@ from emp;
 
 --문제3] 15번 문제와 동일한 데이터에서 급여 인상분(새 급여에서 이전 
 -- 급여를 뺀 값)을 추가해서 출력하라.(컬럼명은 Increase로 하라).  
-    
+select empno, ename, sal, (sal *1.15) - sal as Increase
+from emp;
 --문제4] 각 사원의 이름을 표시하고 근무 달 수를 계산하여 컬럼명을 
 -- Months_Works로 지정하고, 근무 달수를 기준으로 오래된 
 -- 사람부터 정렬하여 출력하라.    
-
+select ename, hirdate, floor(hirdate,(sysdate,hirdate)), as [Months Works]
+from emp
+order by Months_Works desc;
 --문제5] 사원의 이름과 커미션을 출력하되, 커미션이 책정되지 않은 
 -- 사원의 커미션은 'no commission'으로 출력하라.
