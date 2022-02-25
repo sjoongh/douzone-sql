@@ -110,3 +110,6 @@ insert into tt values(2);
 
 select * from tt;
 rollback to savepoint create_tt;
+
+-- commt / rollback은 DML명령에 적용됨
+
