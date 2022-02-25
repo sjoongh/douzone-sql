@@ -40,8 +40,36 @@ BEGIN
 END;
 
 ---------------------------------------------------------------------------
-declare
-    v_salary number := 3;
-    v_dept_id number := 5;
-BEGIN
+create PROCEDURE p_sal
+is
+    declare
+        v_salary number := 0;
+        v_dept_id number := 0;
+    BEGIN
+        v_dept_id := round(dbms_random.value(10, 120), -1);
+        select sal into v_Salary from emp where deptno = v_dept_id and rownum = 1;
+            DBMS_OUTPUT.PUT_LINE(v_salary);
+    
+        if v_salary between 1 and 3000 then DBMS_OUTPUT.PUT_LINE('보수적음');
+        ELSIF v_salary BETWEEN 3001 and 6000 then DBMS_OUTPUT.PUT_LINE('시세에 맞음');
+        else
+            DBMS_OUTPUT.PUT_LINE('완전 높음');
+        end if;
+    END;
+------------------------------------------------------
+create PROCEDURE p_test -- 프로시저 생성
+is
+begin
+    DBMS_OUTPUT.PUT_LINE('주말 잘보내자요~~~');
+end;
+------------------------------------------------------
+EXECUT p_test; -- 프로시저 실행
+EXEC p_test;
+------------------------------------------------------
+create or replace PROCEDURE p_test( -- 프로시저 생성
+    name in VARCHAR2
+)
+is
+begin
+    DBMS_OUTPUT.PUT_LINE(name || '님 완전 좋은 주말 보내세요~~');
 END;
