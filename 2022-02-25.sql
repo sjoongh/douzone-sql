@@ -112,4 +112,10 @@ select * from tt;
 rollback to savepoint create_tt;
 
 -- commt / rollback은 DML명령에 적용됨
+show user;
+select * from emp2
 
+--grant select on kingsmile.emp2 to smile;
+
+-- DROP TABLE
+drop table kingssmile.emp2;
