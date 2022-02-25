@@ -73,3 +73,4 @@ is
 begin
     DBMS_OUTPUT.PUT_LINE(name || '님 완전 좋은 주말 보내세요~~');
 END;
+
