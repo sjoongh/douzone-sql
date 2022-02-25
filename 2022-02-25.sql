@@ -33,3 +33,80 @@ create table kosa_T (
 insert into kosa_t values(AUTONUM.nextval, 'aa');
 
 select * from kosa_T;
+
+insert into kosa values(AUTONUM.nextval, 'aa', 'name');
+
+create sequence seq_kosa
+    INCREMENT by 100;
+    
+select * from kosa;
+
+create sequence seq_board
+    start with 100
+    increment by 100;
+
+create table kosa2(
+    num number,
+    id varchar2(10),
+    name varchar2(20)
+);
+
+alter sequence seq_board
+    cycle;
+    
+insert into kosa2 values(seq_Board.nextval, 'aa', 'name');
+
+create sequence seq_jumin_no
+    increment by 10
+    start with 10
+    maxvalue 150
+    minvalue 9
+    cycle
+    cache 2;
+    
+create table jumin_T(
+    seq number,
+    name varchar2(10),
+    phone varchar2(15)
+);  -- seqment creation immediate;
+
+insert into jumin_T values(seq_jumin_no.nextval, 'aa', '111');
+insert into jumin_T values(seq_jumin_no.nextval, 'bb', '222');
+
+select * from jumin_T;
+
+-- Transaction
+create table c_emp100
+as
+    select * from emp where 1=2; -- 조건에 맞지 않은 상태
+-----------------------------
+begin
+    for i in 1..10000 loop -- for 반복문
+        insert into c_emp100
+            select * from emp;
+    end loop;
+end;
+
+---------------------------------------------------------------
+select * from c_emp100;
+rollback;
+
+update c_emp100 set sal=1000;
+delete from c_emp where deptno=20;
+rollback;
+
+update c_emp set sal=888 where deptno=20;
+
+select * from c_emp100;
+select sum(sal) from c_emp100;
+
+rollback to savepoint update_sal;
+commit;
+
+savepoint create_tt;
+create table tt ( id number );
+insert into tt values(1);
+insert into tt values(2);
+
+select * from tt;
+rollback to savepoint create_tt;
