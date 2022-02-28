@@ -255,3 +255,72 @@ exec p_stuMaxHei;
 
 select * from student;
 -----------------------------------------------
+create or replace procedure p_outTest (
+    name out varchar2, age out varchar2
+)
+is
+begin
+    name := '이나영';
+    age := 20;
+    DBMS_OUTPUT.PUT_LINE('out을 이용한 프로시저 완료');
+end;
+-----------------------------------------------
+-- 변수 생성
+-- NUMBER 는 크기를 지정하지 않는다.
+variable v_name varchar2(20);
+variable v_age NUMBER;
+
+exec p_outTest( :v_name, :v_age);
+
+print v_name;
+print v_age;
+
+-- print는 모든 섹션 또는 특정 세션만 출력이 가능하다
+-- 두개의 변수를 동시에 출력할 수 는 없음
+print (v_name, v_age);
+
+print CAST(@v_name as VARCHAR) + CAST(@v_age as VARCHAR);
+
+-- declare는 가능?
+declare x INT;
+    
+PRINT 'There are ' + CAST(@x AS VARCHAR);
+-----------------------------------
+create or replace procedure p_out ( x in out number )
+as
+begin
+    DBMS_OUTPUT.PUT_LINE('x = ' || x);
+    x := 55;
+end;
+
+variable x varchar2(25);
+exec p_out(:x);
+print x;
+
+exec p_out(:x);
+
+variable y varchar2(25);
+exec p_out(:y);
+print y;
+-----------------------------------
+create or replace procedure p_emp_job (
+    v_job in emp.job%type
+)
+is
+    name emp.ename%type;
+    cursor c_name is select empno, ename from emp where job = v_job; -- 1. 커서선언
+begin
+    open c_name; -- 2. 커서 열기
+    dbms_output.put_line('-------------------------');
+    loop
+            fetch c_name into name; -- 3. 커서로부터 데이터 읽기
+            exit when c_name%notfound; -- 커서에 데이터 없을때까지
+            DBMS_OUTPUT.PUT_LINE(name || ' ' || empno || ' ' || sal || ' ' || v_job);
+    end loop;
+        DBMS_OUTPUT.PUT_LINE('result recode count =>' || c_name%rowcount);
+        close c_name; -- 4. 커서닫기
+end;
+
+exec p_emp_job('SALESMAN');
+
+select * from emp;
