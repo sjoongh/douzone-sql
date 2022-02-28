@@ -209,3 +209,49 @@ begin
 end;
 -----------------------------------------------
 select * from emp order bt sal desc;
+
+select sal, rownum
+        from ( select * 
+                from ( select * from emp order by sal desc )
+                    where rownum <= 5 )
+        sal rank
+-----------------------------------------------
+-- rowtype : 변수의 데이터타입, 크기가 선택한 테이블 컬럼의 타입, 크기가 동일하게 됨
+-- type : 특정한 컬럼의 한 개의 데이터만을 저장
+-- rowtype : 테이블의 행 단위이기때문에 모든 컬럼에 대한 값을 저장, but 한번에 한개의 데이터만 저장함
+create or replace procedure p_empMaxSal
+is
+    v_emprow emp%rowtype;
+begin
+    for i in 1..5 loop
+        select *  into v_emprow 
+        from ( select * from ( select * from emp order by sal desc ) 
+        where rownum <= i order by sal, ename )  where rownum = 1 order by sal desc;
+        DBMS_OUTPUT.PUT_LINE(v_emprow.empno || ' ' || v_emprow.ename || ' ' || v_emprow.sal);
+    end loop;
+end;
+-----------------------------------------------
+exec p_empmaxsal;
+-----------------------------------------------
+desc emp;
+insert into emp (empno, ename, sal) values(8888, 'DoYeon', 5500);
+
+-- 학생 테이블에서 키가 제일 큰 순서로 3명 출력
+create or replace procedure p_stuMaxHei
+is
+    v_sturow student%rowtype;
+begin
+    for i in 1..3 loop
+        select * into v_sturow
+            from ( select * 
+                from ( select * from student order by height desc)
+                    where rownum <= i order by height, name) where rownum = 1;
+                        DBMS_OUTPUT.PUT_LINE(v_sturow.name || ' ' || v_sturow.height);
+    end loop;
+end;
+
+-- 프로시저 실행
+exec p_stuMaxHei;
+
+select * from student;
+-----------------------------------------------
