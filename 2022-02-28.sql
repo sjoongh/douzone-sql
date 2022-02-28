@@ -255,6 +255,8 @@ exec p_stuMaxHei;
 
 select * from student;
 -----------------------------------------------
+-- oracle에서 := 기호는 대입연산자
+-- mysql은 = 이다
 create or replace procedure p_outTest (
     name out varchar2, age out varchar2
 )
@@ -265,26 +267,20 @@ begin
     DBMS_OUTPUT.PUT_LINE('out을 이용한 프로시저 완료');
 end;
 -----------------------------------------------
--- 변수 생성
+-- variable : out이 있는 프로시져에서 호출
+-- 메모리에 만들어짐
 -- NUMBER 는 크기를 지정하지 않는다.
 variable v_name varchar2(20);
 variable v_age NUMBER;
 
-exec p_outTest( :v_name, :v_age);
+exec p_outTest( :v_name, :v_age);  -- 프로시져를 실행한 후 out을 받을 변수 지정
 
-print v_name;
+print v_name; -- 출력
 print v_age;
 
 -- print는 모든 섹션 또는 특정 세션만 출력이 가능하다
 -- 두개의 변수를 동시에 출력할 수 는 없음
 print (v_name, v_age);
-
-print CAST(@v_name as VARCHAR) + CAST(@v_age as VARCHAR);
-
--- declare는 가능?
-declare x INT;
-    
-PRINT 'There are ' + CAST(@x AS VARCHAR);
 -----------------------------------
 create or replace procedure p_out ( x in out number )
 as
@@ -303,24 +299,29 @@ variable y varchar2(25);
 exec p_out(:y);
 print y;
 -----------------------------------
-create or replace procedure p_emp_job (
-    v_job in emp.job%type
-)
+create or replace procedure p_emp_job( v_job in emp.job%type )
 is
     name emp.ename%type;
-    cursor c_name is select empno, ename from emp where job = v_job; -- 1. 커서선언
+    empno emp.empno%type;
+    sal emp.sal%type;
+--  cursor c_name is select empno, ename, sal from emp where job=upper(v_job) or job=lower(v_job);   -- 1.커서선언
+    cursor c_name is select empno, ename, sal from emp where job in(upper(v_job), lower(v_job));   -- 1.커서선언
 begin
-    open c_name; -- 2. 커서 열기
-    dbms_output.put_line('-------------------------');
+    open c_name;   -- 2.커서열기
+    dbms_output.put_line('------------------------------');
     loop
-            fetch c_name into name; -- 3. 커서로부터 데이터 읽기
-            exit when c_name%notfound; -- 커서에 데이터 없을때까지
-            DBMS_OUTPUT.PUT_LINE(name || ' ' || empno || ' ' || sal || ' ' || v_job);
+        fetch c_name into empno, name, sal;  -- 3.커서로부터 데이터 읽기
+        exit when c_name%NOTFOUND; -- 찾을 데이터가 없으면 반복문 탈출한다.
+        dbms_output.put_line(name ||' '||empno||' '||sal||' ' ||v_job);
     end loop;
-        DBMS_OUTPUT.PUT_LINE('result recode count =>' || c_name%rowcount);
-        close c_name; -- 4. 커서닫기
+    dbms_output.put_line('result recode count ==> ' || c_name%rowcount);
+     
+    close c_name;  -- 4.커서닫기
 end;
+-----------------------------------
+-- 레코드는 대소문자 구분함
+exec p_emp_job('manager');
+exec p_emp_job(upper('manager'));
 
-exec p_emp_job('SALESMAN');
-
-select * from emp;
+select * from emp where job = 'manager';
+-----------------------------------
